@@ -6,7 +6,7 @@ import com.app.payload.PostDto;
 
 public interface PostService {
 
-	PostDto createPost(PostDto postDto);
+	PostDto createOrUpdatePost(PostDto postDto);
 
 	List<PostDto> getAllPosts();
 

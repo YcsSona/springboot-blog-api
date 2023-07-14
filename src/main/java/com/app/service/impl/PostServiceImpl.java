@@ -22,14 +22,14 @@ public class PostServiceImpl implements PostService {
 	private PostRepository postRepository;
 
 	@Override
-	public PostDto createPost(PostDto postDto) {
-		// TODO Convert dto to entity
+	public PostDto createOrUpdatePost(PostDto postDto) {
+		//  Convert dto to entity
 		Post post = mapToEntity(postDto);
 
-		// TODO save the post entity
+		//  save the post entity
 		Post newPost = postRepository.save(post);
 
-		// TODO Convert entity into dto
+		//  Convert entity into dto
 		PostDto postResponse = mapToDto(newPost);
 
 		return postResponse;
@@ -51,14 +51,16 @@ public class PostServiceImpl implements PostService {
 		return mapToDto(post);
 	}
 
-	// TODO Add a utility method to convert post entity to post dto
+	//  Utility method to convert post entity to post dto
 	private PostDto mapToDto(Post post) {
 		return new PostDto(post.getId(), post.getTitle(), post.getDescription(), post.getContent());
 	}
 
-	// TODO Add a utility method to convert post entity to post dto
+	// Utility method to convert post entity to post dto
 	private Post mapToEntity(PostDto postDto) {
-		return new Post(postDto.getTitle(), postDto.getDescription(), postDto.getContent());
+		if (postDto.getId() == 0)
+			return new Post(postDto.getTitle(), postDto.getDescription(), postDto.getContent());
+		return new Post(postDto.getId(), postDto.getTitle(), postDto.getDescription(), postDto.getContent());
 	}
 
 }

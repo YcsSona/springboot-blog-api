@@ -23,4 +23,12 @@ public class Post extends BaseEntity {
 
 	@Column(nullable = false)
 	private String content;
+
+	public Post(long id, String title, String description, String content) {
+		super(id);
+		this.title = title;
+		this.description = description;
+		this.content = content;
+	}
+
 }

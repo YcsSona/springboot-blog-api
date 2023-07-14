@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class PostController {
 	// TODO Add a request handling method to create a new post
 	@PostMapping
 	public ResponseEntity<?> createPost(@RequestBody PostDto postDto) {
-		return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
+		return new ResponseEntity<>(postService.createOrUpdatePost(postDto), HttpStatus.CREATED);
 	}
 
 	@GetMapping
@@ -34,5 +35,10 @@ public class PostController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getPostById(@PathVariable long id) {
 		return ResponseEntity.ok(postService.getPostById(id));
+	}
+
+	@PutMapping
+	public ResponseEntity<?> updatePost(@RequestBody PostDto postDto) {
+		return new ResponseEntity<>(postService.createOrUpdatePost(postDto), HttpStatus.OK);
 	}
 }
