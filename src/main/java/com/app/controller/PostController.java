@@ -25,7 +25,7 @@ public class PostController {
 	// TODO Add a request handling method to create a new post
 	@PostMapping
 	public ResponseEntity<?> createPost(@RequestBody PostDto postDto) {
-		return new ResponseEntity<>(postService.createOrUpdatePost(postDto), HttpStatus.CREATED);
+		return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
 	}
 
 	@GetMapping
@@ -38,9 +38,9 @@ public class PostController {
 		return ResponseEntity.ok(postService.getPostById(id));
 	}
 
-	@PutMapping
-	public ResponseEntity<?> updatePost(@RequestBody PostDto postDto) {
-		return new ResponseEntity<>(postService.createOrUpdatePost(postDto), HttpStatus.OK);
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updatePost(@RequestBody PostDto postDto, @PathVariable long id) {
+		return new ResponseEntity<>(postService.updatePost(postDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

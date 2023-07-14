@@ -6,11 +6,13 @@ import com.app.payload.PostDto;
 
 public interface PostService {
 
-	PostDto createOrUpdatePost(PostDto postDto);
+	PostDto createPost(PostDto postDto);
 
 	List<PostDto> getAllPosts();
 
 	PostDto getPostById(long id);
 
 	void deletePostById(long id);
+
+	PostDto updatePost(PostDto postDto, long id);
 }
