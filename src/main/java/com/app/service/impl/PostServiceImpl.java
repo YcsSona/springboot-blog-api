@@ -23,13 +23,13 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostDto createOrUpdatePost(PostDto postDto) {
-		//  Convert dto to entity
+		// Convert dto to entity
 		Post post = mapToEntity(postDto);
 
-		//  save the post entity
+		// save the post entity
 		Post newPost = postRepository.save(post);
 
-		//  Convert entity into dto
+		// Convert entity into dto
 		PostDto postResponse = mapToDto(newPost);
 
 		return postResponse;
@@ -51,7 +51,14 @@ public class PostServiceImpl implements PostService {
 		return mapToDto(post);
 	}
 
-	//  Utility method to convert post entity to post dto
+	@Override
+	public void deletePostById(long id) {
+		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+
+		postRepository.delete(post);
+	}
+
+	// Utility method to convert post entity to post dto
 	private PostDto mapToDto(Post post) {
 		return new PostDto(post.getId(), post.getTitle(), post.getDescription(), post.getContent());
 	}
