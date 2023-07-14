@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.app.entity.Post;
 import com.app.exception.ResourceNotFoundException;
 import com.app.payload.PostDto;
+import com.app.payload.PostResponse;
 import com.app.repository.PostRepository;
 import com.app.service.PostService;
 
@@ -38,15 +40,23 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPosts(int pageNo, int pageSize) {
+	public PostResponse getAllPosts(int pageNo, int pageSize) {
 
 		// Create pageable instance
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 
-		List<Post> posts = postRepository.findAll(pageable).getContent();
+		Page<Post> pages = postRepository.findAll(pageable);
+
+		List<Post> posts = pages.getContent();
 
 //		return posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
-		return posts.stream().collect(Collectors.mapping(post -> mapToDto(post), Collectors.toList()));
+		List<PostDto> postDtos = posts.stream()
+				.collect(Collectors.mapping(post -> mapToDto(post), Collectors.toList()));
+
+		PostResponse response = new PostResponse(postDtos, pages.getNumber(), pages.getSize(), pages.getTotalElements(),
+				pages.getTotalPages(), pages.isLast());
+
+		return response;
 	}
 
 	@Override
