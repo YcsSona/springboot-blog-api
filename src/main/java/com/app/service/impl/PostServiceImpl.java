@@ -1,5 +1,8 @@
 package com.app.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +34,20 @@ public class PostServiceImpl implements PostService {
 		return postResponse;
 	}
 
+	@Override
+	public List<PostDto> getAllPosts() {
+
+		List<Post> posts = postRepository.findAll();
+
+//		return posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+		return posts.stream().collect(Collectors.mapping(post -> mapToDto(post), Collectors.toList()));
+	}
+
 	// TODO Add a utility method to convert post entity to post dto
 	private PostDto mapToDto(Post post) {
 		return new PostDto(post.getId(), post.getTitle(), post.getDescription(), post.getContent());
 	}
-	
+
 	// TODO Add a utility method to convert post entity to post dto
 	private Post mapToEntity(PostDto postDto) {
 		return new Post(postDto.getTitle(), postDto.getDescription(), postDto.getContent());
