@@ -16,4 +16,6 @@ public class CommentDto {
 	private String email;
 
 	private String body;
+	
+	
 }
