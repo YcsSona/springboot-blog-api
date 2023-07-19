@@ -1,5 +1,7 @@
 package com.app.payload;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +18,6 @@ public class PostDto {
 	private String description;
 
 	private String content;
+
+	private Set<CommentDto> comments;
 }
