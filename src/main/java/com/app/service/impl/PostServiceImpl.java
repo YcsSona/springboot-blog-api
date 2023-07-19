@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostRepository postRepository;
+
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	public PostDto createPost(PostDto postDto) {
@@ -95,12 +99,14 @@ public class PostServiceImpl implements PostService {
 
 	// Utility method to convert post entity to post dto
 	private PostDto mapToDto(Post post) {
-		return new PostDto(post.getId(), post.getTitle(), post.getDescription(), post.getContent());
+		PostDto postDto = mapper.map(post, PostDto.class);
+		return postDto;
 	}
 
 	// Utility method to convert post entity to post dto
 	private Post mapToEntity(PostDto postDto) {
-		return new Post(postDto.getTitle(), postDto.getDescription(), postDto.getContent());
+		Post post = mapper.map(postDto, Post.class);
+		return post;
 	}
 
 }

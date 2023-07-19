@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private PostRepository postRepository;
+
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
 	public CommentDto createComment(long postId, CommentDto commentDto) {
@@ -85,11 +89,13 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	private CommentDto mapToDto(Comment comment) {
-		return new CommentDto(comment.getId(), comment.getName(), comment.getEmail(), comment.getBody());
+		CommentDto commentDto = mapper.map(comment, CommentDto.class);
+		return commentDto;
 	}
 
 	private Comment mapToEntity(CommentDto commentDto) {
-		return new Comment(commentDto.getName(), commentDto.getEmail(), commentDto.getBody());
+		Comment comment = mapper.map(commentDto, Comment.class);
+		return comment;
 	}
 
 	private Comment isCommentBelongsToPost(long postId, long commentId) {
