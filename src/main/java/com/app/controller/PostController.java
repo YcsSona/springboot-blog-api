@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class PostController {
 
 	// TODO Add a request handling method to create a new post
 	@PostMapping
-	public ResponseEntity<?> createPost(@RequestBody PostDto postDto) {
+	public ResponseEntity<?> createPost(@RequestBody @Valid PostDto postDto) {
 		return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
 	}
 
@@ -45,7 +47,7 @@ public class PostController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updatePost(@RequestBody PostDto postDto, @PathVariable long id) {
+	public ResponseEntity<?> updatePost(@RequestBody @Valid PostDto postDto, @PathVariable long id) {
 		return new ResponseEntity<>(postService.updatePost(postDto, id), HttpStatus.OK);
 	}
 
