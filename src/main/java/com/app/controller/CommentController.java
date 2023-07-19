@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class CommentController {
 	private CommentService commentService;
 
 	@PostMapping("/posts/{postId}/comments")
-	public ResponseEntity<?> createComment(@PathVariable long postId, @RequestBody CommentDto commentDto) {
+	public ResponseEntity<?> createComment(@PathVariable long postId, @RequestBody @Valid CommentDto commentDto) {
 
 		return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
 	}
@@ -40,7 +42,7 @@ public class CommentController {
 
 	@PutMapping("/posts/{postId}/comments/{commentId}")
 	public ResponseEntity<?> updateComment(@PathVariable long postId, @PathVariable long commentId,
-			@RequestBody CommentDto commentDto) {
+			@RequestBody @Valid CommentDto commentDto) {
 		return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentDto));
 	}
 
