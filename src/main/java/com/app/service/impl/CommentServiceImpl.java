@@ -3,8 +3,6 @@ package com.app.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +16,8 @@ import com.app.payload.CommentDto;
 import com.app.repository.CommentRepository;
 import com.app.repository.PostRepository;
 import com.app.service.CommentService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
