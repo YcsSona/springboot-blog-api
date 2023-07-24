@@ -52,6 +52,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(authz -> {
 			//authz.anyRequest().authenticated();
 			authz.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+			.requestMatchers("/api/auth/**").permitAll()
 			.anyRequest().authenticated();
 		})
 		.httpBasic(Customizer.withDefaults());
